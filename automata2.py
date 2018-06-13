@@ -119,7 +119,7 @@ automata={                 #usamos mapas o diccionarios
       (8,'.'):8,
       (8,'E'):8,
        }
-aceptacion=[4,7]  #estado de aceptacion
+aceptacion=[7,4]  #estado de aceptacion
 def recon(string, current, automata, aceptacion):#creamos la funcion
     if string == "":#cuando no encuentra nada
         return current #retorna true
@@ -129,7 +129,7 @@ def recon(string, current, automata, aceptacion):#creamos la funcion
             destination=automata[(current,letter)]#si es asi destination tendra el nuevo valor estado
             print(destination,"-->")
             if destination == 8:
-                return current
+                return 
             else:
                 remaining_string=string[1:]#comenzara a recorrer los demas caracteres
                 return recon(remaining_string,destination,automata,aceptacion)#funcion recursiva

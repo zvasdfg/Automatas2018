@@ -66,6 +66,7 @@ edges={                 #usamos mapas o diccionarios
       (1,':'):6,
       (1,';'):8,
       (1,'+'):9,
+
 ##
       (2,'A'):11,
       (2,'B'):11,
@@ -255,6 +256,8 @@ edges={                 #usamos mapas o diccionarios
       (11,'8'):11,
       (11,'9'):11,
 
+      (12,''):12,
+
        }
 
       
@@ -267,37 +270,35 @@ def fsmsim(string, current, edges, aceptacion,Tsuma,Tfin,Tasign,Tnreal,Tid,Tno):
         print("Tokens de Numero real: ", Tnreal)
         print("Tokens de identificacion: ", Tid)
         print("Tokens no identificados: ",Tno)
-        return current in aceptacion #retorna true
+        print("Tokens Aceptados",Tsuma+Tfin+Tasign+Tnreal+Tid)
+        return True#retorna true
 
     else:
         letter= string[0] # comienza con el primer caracter
-        if(current,letter)in edges: # compara (estado,letra) se encuentra en edges
+        if(current,letter)in edges:
             destination=edges[(current,letter)]#si es asi destination tendra el nuevo valor estado
-            remaining_string=string[1:]#comenzara a recorrer los demas caracteres
-            if(current == 9):
-                Tsuma = Tsuma + 1
-            elif(current == 8):
-                Tfin = Tfin + 1
-            elif(current == 7):
-                Tasign = Tasign + 1
-            elif(current == 5 ):
-                Tnreal = Tnreal + 1
-            elif(current == 2):
-                Tid = Tid + 1
-            elif(current == 9 ):
-                Tno = Tno + 1
-            elif(current == 8):
-                Tno = Tno +1
-            elif(current == 7):
-                Tno = Tno + 1
-            elif(current == 5):
-                Tno = Tno + 1
-            elif(current == 2):
-                Tno = Tno +1
-            return fsmsim(remaining_string,destination,edges,aceptacion,Tsuma,Tfin,Tasign,Tnreal,Tid,Tno)#funcion recursiva
-
         else:
-            return False #si no es asi retorna falso
+
+              current = 0
+              destination = 11
+        if (current, letter) not in edges and letter != " " and current == 0:
+            Tno = Tno + 1
+
+        elif current == 9:
+            Tsuma = Tsuma + 1
+        elif current == 8:
+            Tfin = Tfin + 1
+        elif current == 7:
+            Tasign = Tasign + 1
+        elif current == 5 or current ==3:
+            Tnreal = Tnreal + 1
+        elif current == 2:
+            Tid = Tid + 1
+        remaining_string = string[1:]  # comenzara a recorrer los demas caracteres
+
+    return fsmsim(remaining_string,destination,edges,aceptacion,Tsuma,Tfin,Tasign,Tnreal,Tid,Tno)#funcion recursiva
+
+
 #hacemos una prueba
-cadena = input() + " "
+cadena = input() + "  "
 print(fsmsim(cadena,1,edges,aceptacion,0,0,0,0,0,0))
